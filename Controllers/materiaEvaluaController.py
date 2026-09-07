@@ -6,5 +6,5 @@ class materiaEvaluaController:
 
     @staticmethod
     def show():
-        data = MateriaEvaluaService.show()
+        data = materia_evaluaService.show()
         return jsonify(data), 200
