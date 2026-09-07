@@ -1,5 +1,5 @@
 from flask import jsonify
-from Services.MateriaEvaluaService import MateriaEvaluaService
+from Services.MateriaEvaluaService import materia_evaluaService
 
 
 class materiaEvaluaController:

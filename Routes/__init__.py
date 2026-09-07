@@ -2,11 +2,10 @@ from .aprendiz_bp import apr_bp
 from .persona_bp import persona_bp
 from .curso_bp import curso_bp
 from .instructor_bp import instructor_bp
-from .instructor_bp import instructor_bp
 from .imparte_bp import imparte_bp
 from .matricula_bp import matricula_bp
 from .evaluacion_bp import evaluacion_bp
-from .materiaEvalua_bp import materiaEvalua_bp
+from .materiaEvalua_bp import materia_evalua_bp
 
 
 
@@ -19,5 +18,5 @@ def loadRoutes(app):
     app.register_blueprint(imparte_bp, url_prefix='/imparte')
     app.register_blueprint(matricula_bp, url_prefix='/matriculas')
     app.register_blueprint(evaluacion_bp, url_prefix='/evaluaciones')
-    app.register_blueprint(materiaEvalua_bp, url_prefix='/materiaEvalua')
+    app.register_blueprint(materia_evalua_bp, url_prefix='/materia-evalua')
 

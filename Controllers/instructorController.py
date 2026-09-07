@@ -1,7 +1,6 @@
 from flask import jsonify
 from Services.instructorService import instructorService
 
-
 class instructorController:
 
     @staticmethod
