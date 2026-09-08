@@ -8,6 +8,7 @@ apr_bp = Blueprint('apr_bp', __name__)
 def home():
     return aprendizController.show()
 
+
 @apr_bp.route('/', methods=['POST'])
 def add():
-    return "agregar aprendiz"
+    return aprendizController.add()

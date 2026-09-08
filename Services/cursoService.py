@@ -1,11 +1,24 @@
 from flask import current_app
 from Models.curso import curso
+import uuid 
 
 class cursoService:
     # opereraciones CRUD
     # CREATE, READ, UPDATE, DELETE
-    def add():
-        pass
+    def add(data):
+        uuid_apr = uuid.uuid4()
+        c = current_app.mysql.connection.cursor()
+        sql = """ INSERT INTO T_APRENDIZ ( APRD_UUID, APR_FECHA_NAC, APR_PER_ID)
+             VALUES (%S, %S, %S) """
+        c.execute(sql, (uuid, data ["fecha_nac"],
+                        data["per_id"]))
+        c.connection.commit()
+        id = c.lastrowid
+        c.close()
+        respuesta = {"id,":id,"APR_UUID": uuid_apr,
+                     "fecha_nac":data["fecha_nac"],
+                     "per_id":data ["per_id"]}
+        return respuesta
 
     def delete():
         pass
@@ -14,7 +27,7 @@ class cursoService:
         pass
 
     def show():
-        sql = "SELECT * FROM T_curso"
+        sql = "SELECT * FROM T_APRENDIZ"
         c  = current_app.mysql.connection.cursor()
         c.execute(sql)
         data = c.fetchall()
