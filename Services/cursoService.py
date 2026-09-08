@@ -6,18 +6,17 @@ class cursoService:
     # opereraciones CRUD
     # CREATE, READ, UPDATE, DELETE
     def add(data):
-        uuid_apr = uuid.uuid4()
+        uuid_cur = uuid.uuid4()
         c = current_app.mysql.connection.cursor()
-        sql = """ INSERT INTO T_APRENDIZ ( APRD_UUID, APR_FECHA_NAC, APR_PER_ID)
+        sql = """ INSERT INTO T_CURSO ( CUR_UUID, CUR_NOMBRE, CUR_CODIGO)
              VALUES (%S, %S, %S) """
-        c.execute(sql, (uuid, data ["fecha_nac"],
-                        data["per_id"]))
+        c.execute(sql, (uuid_cur, data["nombre"], data["codigo"]))
         c.connection.commit()
         id = c.lastrowid
         c.close()
-        respuesta = {"id,":id,"APR_UUID": uuid_apr,
-                     "fecha_nac":data["fecha_nac"],
-                     "per_id":data ["per_id"]}
+        respuesta = {"id,":id,"CUR_UUID": uuid_cur,
+                     "nombre":data["nombre"],
+                     "codigo":data["codigo"]}
         return respuesta
 
     def delete():
@@ -27,7 +26,7 @@ class cursoService:
         pass
 
     def show():
-        sql = "SELECT * FROM T_APRENDIZ"
+        sql = "SELECT * FROM T_CURSO"
         c  = current_app.mysql.connection.cursor()
         c.execute(sql)
         data = c.fetchall()
