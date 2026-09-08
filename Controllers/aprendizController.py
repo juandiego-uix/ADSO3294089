@@ -8,7 +8,8 @@ class aprendizController:
     def show():
         data = aprendizService.show()
         return jsonify(data), 200
-    
+
+    @staticmethod
     def add():
         data = request.get_json(silent = True)
         if data is None:
