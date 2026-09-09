@@ -12,3 +12,8 @@ def home():
 @apr_bp.route('/', methods=['POST'])
 def add():
     return aprendizController.add()
+
+
+@apr_bp.route('/', methods=['DELETE'])
+def delete():
+    return aprendizController.add()

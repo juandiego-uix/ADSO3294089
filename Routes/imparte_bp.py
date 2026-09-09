@@ -14,3 +14,7 @@ def show():
 def add():
     return imparteController.add()
 
+
+@imparte_bp.route("/", methods=["DELETE"])
+def delete():
+    return imparteController.add()

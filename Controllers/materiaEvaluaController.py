@@ -17,7 +17,7 @@ class materiaEvaluaController:
         if not isinstance(data, dict):
             return jsonify({"error": "json invalido"}), 400
         
-        campos_req = ["nota", "eva_id", "mat_id"]
+        campos_req = ["nota", "mat_id"]
         faltantes = missing_fields(data, campos_req)
         if faltantes:
             return jsonify({"mensaje": f"faltan parametros: {faltantes}"}), 400

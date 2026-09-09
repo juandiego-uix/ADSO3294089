@@ -16,7 +16,7 @@ class cursoController:
         if not isinstance(data, dict):
             return jsonify({"error": "json invalido"}), 400
 
-        campos_req = ["nombre", "codigo", "duracion", "costo", "descripcion"]
+        campos_req = ["nombre", "codigo", "duracion"]
         faltantes = missing_fields(data, campos_req)
         if faltantes:
             return jsonify({"mensaje": f"faltan parametros: {faltantes}"}), 400

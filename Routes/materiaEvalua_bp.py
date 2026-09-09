@@ -14,3 +14,6 @@ def show():
 def add():
     return materiaEvaluaController.add()
 
+@materia_evalua_bp.route("/", methods=["DELETE"])
+def delete():
+    return materiaEvaluaController.add()

@@ -25,7 +25,16 @@ class PersonaService:
 
     @staticmethod
     def delete():
-        pass
+        c = current_app.mysql.connection.cursor()
+        sql = """DELETE FROM T_PERSONA WHERE PER_UUID = %s """
+        c.execute(sql, [uuid])
+        c.connection.commit()
+        if  c.lastrowid >0:
+            codigo = 200
+        else:
+                codigo = 400
+        c.close()
+        return codigo
 
     @staticmethod
     def update():

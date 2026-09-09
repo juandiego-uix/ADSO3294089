@@ -17,7 +17,7 @@ class imparteController:
         if not isinstance(data, dict):
             return jsonify({"error": "json invalido"}), 400
         
-        campos_req = ["rol", "fecha_asignacion", "cur_id", "ins_id"]
+        campos_req = ["rol", "fecha_asignacion"]
         faltantes = missing_fields(data, campos_req)
         if faltantes:
             return jsonify({"mensaje": f"faltan parametros: {faltantes}"}), 400

@@ -21,8 +21,16 @@ class aprendizService:
         return respuesta
 
     def delete():
-        pass
-
+        c = current_app.mysql.connection.cursor()
+        sql = """DELETE FROM T_APRENDIZ WHERE APR_UUID = %s """
+        c.execute(sql, [uuid])
+        c.connection.commit()
+        if  c.lastrowid >0:
+            codigo = 200
+        else:
+            codigo = 400
+        c.close()
+        return codigo
     def update():
         pass
 

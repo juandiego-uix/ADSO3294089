@@ -14,3 +14,6 @@ def show():
 def add():
     return evaluacionController.add()
 
+@evaluacion_bp.route("/", methods=["DELETE"])
+def delete():
+    return evaluacionController.add()

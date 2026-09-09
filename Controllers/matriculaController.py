@@ -17,7 +17,7 @@ class matriculaController:
         if not isinstance(data, dict):
             return jsonify({"error": "json invalido"}), 400
         
-        campos_req = ["estado", "fecha_inscripcion", "apr_id", "cur_id"]
+        campos_req = ["estado", "fecha_inscripcion"]
         faltantes = missing_fields(data, campos_req)
         if faltantes:
             return jsonify({"mensaje": f"faltan parametros: {faltantes}"}), 400

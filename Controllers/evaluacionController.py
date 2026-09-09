@@ -17,7 +17,7 @@ class evaluacionController:
             return jsonify({"error": "json invalido"}), 400
         
         
-        campos_req = ["nombre", "codigo", "porcentaje", "fecha"]
+        campos_req = ["nombre", "codigo", "fecha"]
         faltantes = missing_fields(data, campos_req)
         if faltantes:
             return jsonify({"mensaje": f"faltan parametros: {faltantes}"}), 400

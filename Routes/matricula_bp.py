@@ -14,3 +14,6 @@ def show():
 def add():
     return matriculaController.add()
 
+@matricula_bp.route("/", methods=["DELETE"])
+def delete():
+    return matriculaController.add()

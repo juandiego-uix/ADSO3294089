@@ -14,3 +14,6 @@ def show():
 def add():
     return cursoController.add()
 
+@curso_bp.route("/", methods=["DELETE"])
+def delete():
+    return cursoController.add()

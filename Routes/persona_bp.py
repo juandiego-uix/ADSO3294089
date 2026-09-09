@@ -14,3 +14,6 @@ def show():
 def add():
     return PersonaController.add()
 
+@persona_bp.route("/", methods=["DELETE"])
+def delete():
+    return PersonaController.add()
