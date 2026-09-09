@@ -31,4 +31,4 @@ class instructorService:
         data = c.fetchall()
         print(data)
         c.close()
-        return data
+        return data or []

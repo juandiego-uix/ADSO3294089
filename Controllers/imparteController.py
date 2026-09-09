@@ -1,6 +1,7 @@
 from flask import jsonify, request
 from Services.evaluacionService import evaluacionService
 from Services.imparteService import imparteService
+from Controllers.validation import missing_fields
 
 
 class imparteController:
@@ -13,13 +14,13 @@ class imparteController:
     @staticmethod
     def add():
         data = request.get_json(silent = True)
-        if data is None:
-            return jsonify({"error : json invalido"}), 400
+        if not isinstance(data, dict):
+            return jsonify({"error": "json invalido"}), 400
         
         campos_req = ["rol", "fecha_asignacion", "cur_id", "ins_id"]
-        faltantes = [w for w in campos_req if w not in data]
-        if len(faltantes):
-            return jsonify({"mensaje" :f"faltan parametros{faltantes}"}),400
+        faltantes = missing_fields(data, campos_req)
+        if faltantes:
+            return jsonify({"mensaje": f"faltan parametros: {faltantes}"}), 400
         
         x = imparteService.add(data)
         return jsonify (x), 201
