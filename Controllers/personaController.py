@@ -1,5 +1,5 @@
 from flask import jsonify, request
-from Services.personaService import personaService
+from Services.PersonaService import personaService
 from Controllers.validation import validate_payload
 
 
