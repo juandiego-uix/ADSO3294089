@@ -1,27 +1,43 @@
 from flask import jsonify, request
-from Services.PersonaService import PersonaService
-from Controllers.validation import missing_fields
+from Services.personaService import personaService
+from Controllers.validation import validate_payload
 
 
-class PersonaController:
-
+class personaController:
     @staticmethod
     def show():
-        data = PersonaService.show()
-        return jsonify(data), 200
-    
+        return jsonify(personaService.show()), 200
+
     @staticmethod
     def add():
-        data = request.get_json(silent = True)
-        if not isinstance(data, dict):
-            return jsonify({"error": "json invalido"}), 400
-        
-        campos_req = ["primer_nombre", "segundo_nombre", "primer_apellido", "segundo_apellido", "documento"]
-        faltantes = missing_fields(data, campos_req)
-        if faltantes:
-            return jsonify({"mensaje": f"faltan parametros: {faltantes}"}), 400
-        
-        x = PersonaService.add(data)
-        return jsonify (x), 201
+        data, error = personaController._validate_data()
+        if error:
+            return error
+        return jsonify(personaService.add(data)), 201
 
+    @staticmethod
+    def update(per_uuid):
+        data, error = personaController._validate_data()
+        if error:
+            return error
+        if not personaService.update(per_uuid, data):
+            return jsonify({"error": "Persona no encontrada"}), 404
+        return jsonify({"mensaje": "Persona actualizada"}), 200
 
+    @staticmethod
+    def delete(per_uuid):
+        if not personaService.delete(per_uuid):
+            return jsonify({"error": "Persona no encontrada"}), 404
+        return jsonify({"mensaje": "Persona eliminada"}), 200
+
+    @staticmethod
+    def _validate_data():
+        data = request.get_json(silent=True)
+        data, error = validate_payload(
+            data,
+            required=["pri_nombre", "pri_apellido", "documento"],
+            defaults={"seg_nombre": None, "seg_apellido": None}
+        )
+        if error:
+            return None, (jsonify({"error": error}), 400)
+        return data, None
