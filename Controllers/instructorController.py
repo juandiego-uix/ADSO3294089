@@ -1,25 +1,43 @@
 from flask import jsonify, request
-from Services.evaluacionService import evaluacionService
 from Services.instructorService import instructorService
-from Controllers.validation import missing_fields
+from Controllers.validation import validate_payload
+
 
 class instructorController:
-
     @staticmethod
     def show():
-        data = instructorService.show()
-        return jsonify(data), 200
+        return jsonify(instructorService.show()), 200
 
     @staticmethod
     def add():
-        data = request.get_json(silent = True)
-        if not isinstance(data, dict):
-            return jsonify({"error": "json invalido"}), 400
-        
-        campos_req = ["especialidad", "per_id"]
-        faltantes = missing_fields(data, campos_req)
-        if faltantes:
-            return jsonify({"mensaje": f"faltan parametros: {faltantes}"}), 400
-        
-        x = instructorService.add(data)
-        return jsonify (x), 201
+        data, error = instructorController._validate_data()
+        if error:
+            return error
+        return jsonify(instructorService.add(data)), 201
+
+    @staticmethod
+    def update(ins_uuid):
+        data, error = instructorController._validate_data()
+        if error:
+            return error
+        if not instructorService.update(ins_uuid, data):
+            return jsonify({"error": "Instructor no encontrado"}), 404
+        return jsonify({"mensaje": "Instructor actualizado"}), 200
+
+    @staticmethod
+    def delete(ins_uuid):
+        if not instructorService.delete(ins_uuid):
+            return jsonify({"error": "Instructor no encontrado"}), 404
+        return jsonify({"mensaje": "Instructor eliminado"}), 200
+
+    @staticmethod
+    def _validate_data():
+        data = request.get_json(silent=True)
+        data, error = validate_payload(
+            data,
+            required=["especialidad", "per_id"],
+            integer_fields=["per_id"]
+        )
+        if error:
+            return None, (jsonify({"error": error}), 400)
+        return data, None
