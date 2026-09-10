@@ -1,25 +1,46 @@
 from flask import jsonify, request
 from Services.cursoService import cursoService
-from Controllers.validation import missing_fields
+from Controllers.validation import validate_payload
 
 
 class cursoController:
-
     @staticmethod
     def show():
-        data = cursoService.show()
-        return jsonify(data), 200
-    
+        return jsonify(cursoService.show()), 200
+
     @staticmethod
     def add():
-        data = request.get_json(silent = True)
-        if not isinstance(data, dict):
-            return jsonify({"error": "json invalido"}), 400
+        data, error = cursoController._validate_data()
+        if error:
+            return error
+        return jsonify(cursoService.add(data)), 201
 
-        campos_req = ["nombre", "codigo", "duracion"]
-        faltantes = missing_fields(data, campos_req)
-        if faltantes:
-            return jsonify({"mensaje": f"faltan parametros: {faltantes}"}), 400
-        
-        x = cursoService.add(data)
-        return jsonify (x), 201
+    @staticmethod
+    def update(cur_uuid):
+        data, error = cursoController._validate_data()
+        if error:
+            return error
+        if not cursoService.update(cur_uuid, data):
+            return jsonify({"error": "Curso no encontrado"}), 404
+        return jsonify({"mensaje": "Curso actualizado"}), 200
+
+    @staticmethod
+    def delete(cur_uuid):
+        if not cursoService.delete(cur_uuid):
+            return jsonify({"error": "Curso no encontrado"}), 404
+        return jsonify({"mensaje": "Curso eliminado"}), 200
+
+    @staticmethod
+    def _validate_data():
+        data = request.get_json(silent=True)
+        data, error = validate_payload(
+            data,
+            required=["nombre", "codigo", "duracion", "costo"],
+            integer_fields=["duracion"],
+            decimal_fields=["costo"],
+            ranges={"costo": (0, None)},
+            defaults={"descripcion": None}
+        )
+        if error:
+            return None, (jsonify({"error": error}), 400)
+        return data, None
