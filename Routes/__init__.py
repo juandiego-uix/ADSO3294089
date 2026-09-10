@@ -8,7 +8,6 @@ from .evaluacion_bp import evaluacion_bp
 from .materiaEvalua_bp import materia_evalua_bp
 
 
-
 def loadRoutes(app):
 
     app.register_blueprint(apr_bp, url_prefix='/aprendices')
@@ -19,4 +18,3 @@ def loadRoutes(app):
     app.register_blueprint(matricula_bp, url_prefix='/matriculas')
     app.register_blueprint(evaluacion_bp, url_prefix='/evaluaciones')
     app.register_blueprint(materia_evalua_bp, url_prefix='/materia-evalua')
-
