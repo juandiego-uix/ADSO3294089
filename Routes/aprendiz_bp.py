@@ -14,6 +14,11 @@ def add():
     return aprendizController.add()
 
 
-@apr_bp.route('/', methods=['DELETE'])
-def delete():
-    return aprendizController.add()
+@apr_bp.route('/<string:apr_uuid>', methods=['PUT'])
+def update(apr_uuid):
+    return aprendizController.update(apr_uuid)
+
+
+@apr_bp.route('/<string:apr_uuid>', methods=['DELETE'])
+def delete(apr_uuid):
+    return aprendizController.delete(apr_uuid)
