@@ -1,11 +1,7 @@
 flask
 flask-mysqldb
 python-dotenv
+flask-cors
 
 
-# pip install -r requirements.txt
-
-# este archivo contendra los modulos
-# que son necesarios par crear la api
-# se hace necesario instalar con el comando
-# de la linea 6 en la terminal
+# Instalar con: pip install -r requirements.txt

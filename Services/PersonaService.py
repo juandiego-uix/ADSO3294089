@@ -2,50 +2,58 @@ from flask import current_app
 from Models.Persona import Persona
 import uuid
 
-class PersonaService:
-    # opereraciones CRUD
-    # CREATE, READ, UPDATE, DELETE
+
+class personaService:
     @staticmethod
     def add(data):
-        uuid_persona = str(uuid.uuid4())
+        persona_uuid = str(uuid.uuid4())
         c = current_app.mysql.connection.cursor()
-        sql = """ INSERT INTO T_PERSONA ( PER_UUID, PER_PRI_NOMBRE, PER_SEG_NOMBRE, PER_PRI_APELLIDO, PER_SEG_APELLIDO, PER_DOC)
-             VALUES (%s, %s, %s, %s, %s, %s) """
-        c.execute(sql, (uuid_persona, data["primer_nombre"], data["segundo_nombre"], data["primer_apellido"], data["segundo_apellido"], data["documento"]))
-        c.connection.commit()
-        id = c.lastrowid
-        c.close()
-        respuesta = {"id": id, "PER_UUID": uuid_persona,
-                     "primer_nombre": data["primer_nombre"],
-                     "segundo_nombre": data["segundo_nombre"],
-                     "primer_apellido": data["primer_apellido"],
-                     "segundo_apellido": data["segundo_apellido"],
-                     "documento": data["documento"]}
-        return respuesta
-
-    @staticmethod
-    def delete():
-        c = current_app.mysql.connection.cursor()
-        sql = """DELETE FROM T_PERSONA WHERE PER_UUID = %s """
-        c.execute(sql, [uuid])
-        c.connection.commit()
-        if  c.lastrowid >0:
-            codigo = 200
-        else:
-                codigo = 400
-        c.close()
-        return codigo
-
-    @staticmethod
-    def update():
-        pass
+        sql = """INSERT INTO T_PERSONA
+                 (PER_UUID, PER_PRI_NOMBRE, PER_SEG_NOMBRE, PER_PRI_APELLIDO,
+                  PER_SEG_APELLIDO, PER_DOCUMENTO)
+                 VALUES (%s, %s, %s, %s, %s, %s)"""
+        try:
+            c.execute(sql, (persona_uuid, data["pri_nombre"], data["seg_nombre"],
+                            data["pri_apellido"], data["seg_apellido"],
+                            data["documento"]))
+            c.connection.commit()
+            return Persona(c.lastrowid, persona_uuid, data["pri_nombre"],
+                           data["seg_nombre"], data["pri_apellido"],
+                           data["seg_apellido"], data["documento"]).to_dict()
+        finally:
+            c.close()
 
     @staticmethod
     def show():
-        sql = "SELECT * FROM T_Persona"
-        c  = current_app.mysql.connection.cursor()
-        c.execute(sql)
-        data = c.fetchall()
-        print(data)
-        c.close()
-        return data or []
+        c = current_app.mysql.connection.cursor()
+        try:
+            c.execute("SELECT * FROM T_PERSONA")
+            return [Persona(*row).to_dict() for row in c.fetchall()]
+        finally:
+            c.close()
+
+    @staticmethod
+    def update(per_uuid, data):
+        c = current_app.mysql.connection.cursor()
+        sql = """UPDATE T_PERSONA SET PER_PRI_NOMBRE = %s,
+                 PER_SEG_NOMBRE = %s, PER_PRI_APELLIDO = %s,
+                 PER_SEG_APELLIDO = %s, PER_DOCUMENTO = %s
+                 WHERE PER_UUID = %s"""
+        try:
+            c.execute(sql, (data["pri_nombre"], data["seg_nombre"],
+                            data["pri_apellido"], data["seg_apellido"],
+                            data["documento"], per_uuid))
+            c.connection.commit()
+            return c.rowcount > 0
+        finally:
+            c.close()
+
+    @staticmethod
+    def delete(per_uuid):
+        c = current_app.mysql.connection.cursor()
+        try:
+            c.execute("DELETE FROM T_PERSONA WHERE PER_UUID = %s", (per_uuid,))
+            c.connection.commit()
+            return c.rowcount > 0
+        finally:
+            c.close()

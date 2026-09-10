@@ -2,45 +2,57 @@ from flask import current_app
 from Models.imparte import imparte
 import uuid
 
+
 class imparteService:
-    # opereraciones CRUD
-    # CREATE, READ, UPDATE, DELETE
+    @staticmethod
     def add(data):
-        uuid_imp = str(uuid.uuid4())
+        imparte_uuid = str(uuid.uuid4())
         c = current_app.mysql.connection.cursor()
-        sql = """ INSERT INTO T_IMPARTE (IMP_UUID, IMP_ROL,
-             IMP_FECHA_ASIGNACION, IMP_CUR_ID, IMP_INS_ID)
-             VALUES (%s, %s, %s, %s, %s) """
-        c.execute(sql, (uuid_imp, data["rol"], data["fecha_asignacion"],
-                        data["cur_id"], data["ins_id"]))
-        c.connection.commit()
-        id = c.lastrowid
-        c.close()
-        respuesta = {"id":id,"IMP_UUID": uuid_imp,
-                     "rol":data["rol"], "fecha_asignacion":data["fecha_asignacion"],
-                     "cur_id":data["cur_id"], "ins_id":data["ins_id"]}
-        return respuesta
+        sql = """INSERT INTO T_IMPARTE
+                 (IMP_UUID, IMP_ROL, IMP_FECHA, IMP_FECHA_ASIGNACION,
+                  IMP_CUR_ID, IMP_INS_ID)
+                 VALUES (%s, %s, %s, %s, %s, %s)"""
+        try:
+            c.execute(sql, (imparte_uuid, data["rol"], data["fecha"],
+                            data["fecha_asignacion"], data["cur_id"],
+                            data["ins_id"]))
+            c.connection.commit()
+            return imparte(c.lastrowid, imparte_uuid, data["rol"], data["fecha"],
+                           data["fecha_asignacion"], data["cur_id"],
+                           data["ins_id"]).to_dict()
+        finally:
+            c.close()
 
-    def delete():
-        c = current_app.mysql.connection.cursor()
-        sql = """DELETE FROM T_IMPARTE WHERE IMP_UUID = %s """
-        c.execute(sql, [uuid])
-        c.connection.commit()
-        if  c.lastrowid >0:
-            codigo = 200
-        else:
-                codigo = 400
-        c.close()
-        return codigo
-
-    def update():
-        pass
-
+    @staticmethod
     def show():
-        sql = "SELECT * FROM T_imparte"
-        c  = current_app.mysql.connection.cursor()
-        c.execute(sql)
-        data = c.fetchall()
-        print(data)
-        c.close()
-        return data or []
+        c = current_app.mysql.connection.cursor()
+        try:
+            c.execute("SELECT * FROM T_IMPARTE")
+            return [imparte(*row).to_dict() for row in c.fetchall()]
+        finally:
+            c.close()
+
+    @staticmethod
+    def update(imp_uuid, data):
+        c = current_app.mysql.connection.cursor()
+        sql = """UPDATE T_IMPARTE SET IMP_ROL = %s, IMP_FECHA = %s,
+                 IMP_FECHA_ASIGNACION = %s, IMP_CUR_ID = %s, IMP_INS_ID = %s
+                 WHERE IMP_UUID = %s"""
+        try:
+            c.execute(sql, (data["rol"], data["fecha"],
+                            data["fecha_asignacion"], data["cur_id"],
+                            data["ins_id"], imp_uuid))
+            c.connection.commit()
+            return c.rowcount > 0
+        finally:
+            c.close()
+
+    @staticmethod
+    def delete(imp_uuid):
+        c = current_app.mysql.connection.cursor()
+        try:
+            c.execute("DELETE FROM T_IMPARTE WHERE IMP_UUID = %s", (imp_uuid,))
+            c.connection.commit()
+            return c.rowcount > 0
+        finally:
+            c.close()

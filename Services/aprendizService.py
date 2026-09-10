@@ -1,44 +1,54 @@
 from flask import current_app
 from Models.Aprendiz import Aprendiz
-import uuid 
+import uuid
 
 class aprendizService:
-    # opereraciones CRUD
-    # CREATE, READ, UPDATE, DELETE
+    @staticmethod
     def add(data):
         uuid_apr = str(uuid.uuid4())
         c = current_app.mysql.connection.cursor()
         sql = """ INSERT INTO T_APRENDIZ (APR_UUID, APR_FECHA_NAC, APR_PER_ID)
                VALUES (%s, %s, %s) """
-        c.execute(sql, (uuid_apr, data["fecha_nac"],
-                        data["per_id"]))
-        c.connection.commit()
-        id = c.lastrowid
-        c.close()
-        respuesta = {"id":id,"APR_UUID": uuid_apr,
-                     "fecha_nac":data["fecha_nac"],
-                     "per_id":data ["per_id"]}
-        return respuesta
+        try:
+            c.execute(sql, (uuid_apr, data["fecha_nac"], data["per_id"]))
+            c.connection.commit()
+            return Aprendiz(
+                c.lastrowid,
+                uuid_apr,
+                data["fecha_nac"],
+                data["per_id"]
+            ).to_dict()
+        finally:
+            c.close()
 
-    def delete():
-        c = current_app.mysql.connection.cursor()
-        sql = """DELETE FROM T_APRENDIZ WHERE APR_UUID = %s """
-        c.execute(sql, [uuid])
-        c.connection.commit()
-        if  c.lastrowid >0:
-            codigo = 200
-        else:
-            codigo = 400
-        c.close()
-        return codigo
-    def update():
-        pass
-
+    @staticmethod
     def show():
-        sql = "SELECT * FROM T_APRENDIZ"
-        c  = current_app.mysql.connection.cursor()
-        c.execute(sql)
-        data = c.fetchall()
-        print(data)
-        c.close()
-        return data or []
+        c = current_app.mysql.connection.cursor()
+        try:
+            c.execute("SELECT * FROM T_APRENDIZ")
+            return [Aprendiz(*fila).to_dict() for fila in c.fetchall()]
+        finally:
+            c.close()
+
+    @staticmethod
+    def delete(apr_uuid):
+        c = current_app.mysql.connection.cursor()
+        try:
+            c.execute("DELETE FROM T_APRENDIZ WHERE APR_UUID = %s", (apr_uuid,))
+            c.connection.commit()
+            return c.rowcount > 0
+        finally:
+            c.close()
+
+    @staticmethod
+    def update(apr_uuid, data):
+        c = current_app.mysql.connection.cursor()
+        sql = """UPDATE T_APRENDIZ
+                 SET APR_FECHA_NAC = %s, APR_PER_ID = %s
+                 WHERE APR_UUID = %s"""
+        try:
+            c.execute(sql, (data["fecha_nac"], data["per_id"], apr_uuid))
+            c.connection.commit()
+            return c.rowcount > 0
+        finally:
+            c.close()
