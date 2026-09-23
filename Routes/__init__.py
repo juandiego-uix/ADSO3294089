@@ -6,6 +6,7 @@ from .imparte_bp import imparte_bp
 from .matricula_bp import matricula_bp
 from .evaluacion_bp import evaluacion_bp
 from .materiaEvalua_bp import materia_evalua_bp
+from .documentacion import documentacion_bp
 
 
 def loadRoutes(app):
@@ -18,3 +19,4 @@ def loadRoutes(app):
     app.register_blueprint(matricula_bp, url_prefix='/matriculas')
     app.register_blueprint(evaluacion_bp, url_prefix='/evaluaciones')
     app.register_blueprint(materia_evalua_bp, url_prefix='/materia-evalua')
+    app.register_blueprint(documentacion_bp, url_prefix='/documentacion')
