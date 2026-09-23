@@ -1,229 +1,1649 @@
 {
-  "openapi": "3.0.0",
-  "info": {
-    "title": "API de MISCELANEA 3.0",
-    "description": "API REST para gestión de usuarios y eventos.",
-    "version": "2.0.0"
-  },
-  "servers": [
-    {
-      "url": "http://127.0.0.1:5000"
-    }
-  ],
-  "tags": [
-    {
-      "name": "Usuarios",
-      "description": "Gestión de aprendices"
-    },
-    {
-      "name": "Eventos",
-      "description": "Gestión de eventos"
-    }
-  ],
-  "paths": {
-    
-    "/usuarios": {
-      "get": {
-        "tags": ["Usuarios"],
-        "summary": "Listar usuarios",
-        "responses": {
-          "200": {
-            "description": "Lista de usuarios"
-          }
-        }
-      },
-      "post": {
-        "tags": ["Usuarios"],
-        "summary": "Crear usuario",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "nombre": { "type": "string" },
-                  "genero": { "type": "string" },
-                  "frm": { "type": "string" },
-                  "numdoc": { "type": "string" }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Usuario creado"
-          }
-        }
-      }
-    },
-
-    "/usuarios/{id}": {
-      "get": {
-        "tags": ["Usuarios"],
-        "summary": "Obtener usuario por ID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "integer" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Usuario encontrado"
-          },
-          "404": {
-            "description": "Usuario no encontrado"
-          }
-        }
-      },
-      "patch": {
-        "tags": ["Usuarios"],
-        "summary": "Actualizar usuario",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "integer" }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "nombre": { "type": "string" },
-                  "genero": { "type": "string" },
-                  "frm": { "type": "string" },
-                  "numdoc": { "type": "string" }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Usuario actualizado"
-          }
-        }
-      },
-      "delete": {
-        "tags": ["Usuarios"],
-        "summary": "Eliminar usuario",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "integer" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Usuario eliminado"
-          }
-        }
-      }
-    },
-
-    "/eventos": {
-      "get": {
-        "tags": ["Eventos"],
-        "summary": "Listar eventos",
-        "responses": {
-          "200": {
-            "description": "Lista de eventos"
-          }
-        }
-      },
-      "post": {
-        "tags": ["Eventos"],
-        "summary": "Crear evento",
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "nombre": { "type": "string" },
-                  "fecha": { "type": "string", "format": "date" },
-                  "lugar": { "type": "string" }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "201": {
-            "description": "Evento creado"
-          }
-        }
-      }
-    },
-
-    "/eventos/{id}": {
-      "get": {
-        "tags": ["Eventos"],
-        "summary": "Obtener evento por ID",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "integer" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Evento encontrado"
-          },
-          "404": {
-            "description": "Evento no encontrado"
-          }
-        }
-      },
-      "patch": {
-        "tags": ["Eventos"],
-        "summary": "Actualizar evento",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "integer" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Evento actualizado"
-          }
-        }
-      },
-      "delete": {
-        "tags": ["Eventos"],
-        "summary": "Eliminar evento",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": { "type": "integer" }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Evento eliminado"
-          }
-        }
-      }
-    }
-
-  }
+    "openapi":  "3.0.0",
+    "info":  {
+                 "title":  "API ADSO4089",
+                 "description":  "API REST para gestionar aprendices, personas, cursos, instructores, asignaciones, matrículas, evaluaciones y notas.",
+                 "version":  "2.0.0"
+             },
+    "servers":  [
+                    {
+                        "url":  "http://127.0.0.1:5000"
+                    }
+                ],
+    "tags":  [
+                 {
+                     "name":  "Estado"
+                 },
+                 {
+                     "name":  "Aprendices"
+                 },
+                 {
+                     "name":  "Personas"
+                 },
+                 {
+                     "name":  "Cursos"
+                 },
+                 {
+                     "name":  "Instructores"
+                 },
+                 {
+                     "name":  "Asignaciones de instructores"
+                 },
+                 {
+                     "name":  "Matrículas"
+                 },
+                 {
+                     "name":  "Evaluaciones"
+                 },
+                 {
+                     "name":  "Notas de materias"
+                 }
+             ],
+    "paths":  {
+                  "/":  {
+                            "get":  {
+                                        "tags":  [
+                                                     "Estado"
+                                                 ],
+                                        "summary":  "Consultar estado de la API",
+                                        "responses":  {
+                                                          "200":  {
+                                                                      "description":  "Estado y rutas principales.",
+                                                                      "content":  {
+                                                                                      "application/json":  {
+                                                                                                               "schema":  {
+                                                                                                                              "$ref":  "#/components/schemas/ApiStatusResponse"
+                                                                                                                          }
+                                                                                                           }
+                                                                                  }
+                                                                  },
+                                                          "default":  {
+                                                                          "$ref":  "#/components/responses/ServerError"
+                                                                      }
+                                                      }
+                                    }
+                        },
+                  "/aprendices/":  {
+                                       "get":  {
+                                                   "tags":  [
+                                                                "Aprendices"
+                                                            ],
+                                                   "summary":  "Listar aprendices",
+                                                   "responses":  {
+                                                                     "200":  {
+                                                                                 "description":  "Lista de aprendices.",
+                                                                                 "content":  {
+                                                                                                 "application/json":  {
+                                                                                                                          "schema":  {
+                                                                                                                                         "type":  "array",
+                                                                                                                                         "items":  {
+                                                                                                                                                       "$ref":  "#/components/schemas/AprendizResponse"
+                                                                                                                                                   }
+                                                                                                                                     }
+                                                                                                                      }
+                                                                                             }
+                                                                             },
+                                                                     "default":  {
+                                                                                     "$ref":  "#/components/responses/ServerError"
+                                                                                 }
+                                                                 }
+                                               },
+                                       "post":  {
+                                                    "tags":  [
+                                                                 "Aprendices"
+                                                             ],
+                                                    "summary":  "Crear aprendiz",
+                                                    "requestBody":  {
+                                                                        "$ref":  "#/components/requestBodies/AprendizInput"
+                                                                    },
+                                                    "responses":  {
+                                                                      "201":  {
+                                                                                  "description":  "Recurso creado.",
+                                                                                  "content":  {
+                                                                                                  "application/json":  {
+                                                                                                                           "schema":  {
+                                                                                                                                          "$ref":  "#/components/schemas/AprendizResponse"
+                                                                                                                                      }
+                                                                                                                       }
+                                                                                              }
+                                                                              },
+                                                                      "400":  {
+                                                                                  "$ref":  "#/components/responses/BadRequest"
+                                                                              },
+                                                                      "default":  {
+                                                                                      "$ref":  "#/components/responses/ServerError"
+                                                                                  }
+                                                                  }
+                                                }
+                                   },
+                  "/aprendices/{apr_uuid}":  {
+                                                 "put":  {
+                                                             "tags":  [
+                                                                          "Aprendices"
+                                                                      ],
+                                                             "summary":  "Actualizar aprendiz",
+                                                             "parameters":  [
+                                                                                {
+                                                                                    "name":  "apr_uuid",
+                                                                                    "in":  "path",
+                                                                                    "required":  true,
+                                                                                    "schema":  {
+                                                                                                   "type":  "string",
+                                                                                                   "format":  "uuid"
+                                                                                               }
+                                                                                }
+                                                                            ],
+                                                             "requestBody":  {
+                                                                                 "$ref":  "#/components/requestBodies/AprendizInput"
+                                                                             },
+                                                             "responses":  {
+                                                                               "200":  {
+                                                                                           "description":  "Recurso actualizado.",
+                                                                                           "content":  {
+                                                                                                           "application/json":  {
+                                                                                                                                    "schema":  {
+                                                                                                                                                   "$ref":  "#/components/schemas/MessageResponse"
+                                                                                                                                               }
+                                                                                                                                }
+                                                                                                       }
+                                                                                       },
+                                                                               "400":  {
+                                                                                           "$ref":  "#/components/responses/BadRequest"
+                                                                                       },
+                                                                               "404":  {
+                                                                                           "$ref":  "#/components/responses/NotFound"
+                                                                                       },
+                                                                               "default":  {
+                                                                                               "$ref":  "#/components/responses/ServerError"
+                                                                                           }
+                                                                           }
+                                                         },
+                                                 "delete":  {
+                                                                "tags":  [
+                                                                             "Aprendices"
+                                                                         ],
+                                                                "summary":  "Eliminar aprendiz",
+                                                                "parameters":  [
+                                                                                   {
+                                                                                       "name":  "apr_uuid",
+                                                                                       "in":  "path",
+                                                                                       "required":  true,
+                                                                                       "schema":  {
+                                                                                                      "type":  "string",
+                                                                                                      "format":  "uuid"
+                                                                                                  }
+                                                                                   }
+                                                                               ],
+                                                                "responses":  {
+                                                                                  "200":  {
+                                                                                              "description":  "Recurso eliminado.",
+                                                                                              "content":  {
+                                                                                                              "application/json":  {
+                                                                                                                                       "schema":  {
+                                                                                                                                                      "$ref":  "#/components/schemas/MessageResponse"
+                                                                                                                                                  }
+                                                                                                                                   }
+                                                                                                          }
+                                                                                          },
+                                                                                  "404":  {
+                                                                                              "$ref":  "#/components/responses/NotFound"
+                                                                                          },
+                                                                                  "default":  {
+                                                                                                  "$ref":  "#/components/responses/ServerError"
+                                                                                              }
+                                                                              }
+                                                            }
+                                             },
+                  "/personas/":  {
+                                     "get":  {
+                                                 "tags":  [
+                                                              "Personas"
+                                                          ],
+                                                 "summary":  "Listar personas",
+                                                 "responses":  {
+                                                                   "200":  {
+                                                                               "description":  "Lista de personas.",
+                                                                               "content":  {
+                                                                                               "application/json":  {
+                                                                                                                        "schema":  {
+                                                                                                                                       "type":  "array",
+                                                                                                                                       "items":  {
+                                                                                                                                                     "$ref":  "#/components/schemas/PersonaResponse"
+                                                                                                                                                 }
+                                                                                                                                   }
+                                                                                                                    }
+                                                                                           }
+                                                                           },
+                                                                   "default":  {
+                                                                                   "$ref":  "#/components/responses/ServerError"
+                                                                               }
+                                                               }
+                                             },
+                                     "post":  {
+                                                  "tags":  [
+                                                               "Personas"
+                                                           ],
+                                                  "summary":  "Crear persona",
+                                                  "requestBody":  {
+                                                                      "$ref":  "#/components/requestBodies/PersonaInput"
+                                                                  },
+                                                  "responses":  {
+                                                                    "201":  {
+                                                                                "description":  "Recurso creado.",
+                                                                                "content":  {
+                                                                                                "application/json":  {
+                                                                                                                         "schema":  {
+                                                                                                                                        "$ref":  "#/components/schemas/PersonaResponse"
+                                                                                                                                    }
+                                                                                                                     }
+                                                                                            }
+                                                                            },
+                                                                    "400":  {
+                                                                                "$ref":  "#/components/responses/BadRequest"
+                                                                            },
+                                                                    "default":  {
+                                                                                    "$ref":  "#/components/responses/ServerError"
+                                                                                }
+                                                                }
+                                              }
+                                 },
+                  "/personas/{per_uuid}":  {
+                                               "put":  {
+                                                           "tags":  [
+                                                                        "Personas"
+                                                                    ],
+                                                           "summary":  "Actualizar persona",
+                                                           "parameters":  [
+                                                                              {
+                                                                                  "name":  "per_uuid",
+                                                                                  "in":  "path",
+                                                                                  "required":  true,
+                                                                                  "schema":  {
+                                                                                                 "type":  "string",
+                                                                                                 "format":  "uuid"
+                                                                                             }
+                                                                              }
+                                                                          ],
+                                                           "requestBody":  {
+                                                                               "$ref":  "#/components/requestBodies/PersonaInput"
+                                                                           },
+                                                           "responses":  {
+                                                                             "200":  {
+                                                                                         "description":  "Recurso actualizado.",
+                                                                                         "content":  {
+                                                                                                         "application/json":  {
+                                                                                                                                  "schema":  {
+                                                                                                                                                 "$ref":  "#/components/schemas/MessageResponse"
+                                                                                                                                             }
+                                                                                                                              }
+                                                                                                     }
+                                                                                     },
+                                                                             "400":  {
+                                                                                         "$ref":  "#/components/responses/BadRequest"
+                                                                                     },
+                                                                             "404":  {
+                                                                                         "$ref":  "#/components/responses/NotFound"
+                                                                                     },
+                                                                             "default":  {
+                                                                                             "$ref":  "#/components/responses/ServerError"
+                                                                                         }
+                                                                         }
+                                                       },
+                                               "delete":  {
+                                                              "tags":  [
+                                                                           "Personas"
+                                                                       ],
+                                                              "summary":  "Eliminar persona",
+                                                              "parameters":  [
+                                                                                 {
+                                                                                     "name":  "per_uuid",
+                                                                                     "in":  "path",
+                                                                                     "required":  true,
+                                                                                     "schema":  {
+                                                                                                    "type":  "string",
+                                                                                                    "format":  "uuid"
+                                                                                                }
+                                                                                 }
+                                                                             ],
+                                                              "responses":  {
+                                                                                "200":  {
+                                                                                            "description":  "Recurso eliminado.",
+                                                                                            "content":  {
+                                                                                                            "application/json":  {
+                                                                                                                                     "schema":  {
+                                                                                                                                                    "$ref":  "#/components/schemas/MessageResponse"
+                                                                                                                                                }
+                                                                                                                                 }
+                                                                                                        }
+                                                                                        },
+                                                                                "404":  {
+                                                                                            "$ref":  "#/components/responses/NotFound"
+                                                                                        },
+                                                                                "default":  {
+                                                                                                "$ref":  "#/components/responses/ServerError"
+                                                                                            }
+                                                                            }
+                                                          }
+                                           },
+                  "/cursos/":  {
+                                   "get":  {
+                                               "tags":  [
+                                                            "Cursos"
+                                                        ],
+                                               "summary":  "Listar cursos",
+                                               "responses":  {
+                                                                 "200":  {
+                                                                             "description":  "Lista de cursos.",
+                                                                             "content":  {
+                                                                                             "application/json":  {
+                                                                                                                      "schema":  {
+                                                                                                                                     "type":  "array",
+                                                                                                                                     "items":  {
+                                                                                                                                                   "$ref":  "#/components/schemas/CursoResponse"
+                                                                                                                                               }
+                                                                                                                                 }
+                                                                                                                  }
+                                                                                         }
+                                                                         },
+                                                                 "default":  {
+                                                                                 "$ref":  "#/components/responses/ServerError"
+                                                                             }
+                                                             }
+                                           },
+                                   "post":  {
+                                                "tags":  [
+                                                             "Cursos"
+                                                         ],
+                                                "summary":  "Crear curso",
+                                                "requestBody":  {
+                                                                    "$ref":  "#/components/requestBodies/CursoInput"
+                                                                },
+                                                "responses":  {
+                                                                  "201":  {
+                                                                              "description":  "Recurso creado.",
+                                                                              "content":  {
+                                                                                              "application/json":  {
+                                                                                                                       "schema":  {
+                                                                                                                                      "$ref":  "#/components/schemas/CursoResponse"
+                                                                                                                                  }
+                                                                                                                   }
+                                                                                          }
+                                                                          },
+                                                                  "400":  {
+                                                                              "$ref":  "#/components/responses/BadRequest"
+                                                                          },
+                                                                  "default":  {
+                                                                                  "$ref":  "#/components/responses/ServerError"
+                                                                              }
+                                                              }
+                                            }
+                               },
+                  "/cursos/{cur_uuid}":  {
+                                             "put":  {
+                                                         "tags":  [
+                                                                      "Cursos"
+                                                                  ],
+                                                         "summary":  "Actualizar curso",
+                                                         "parameters":  [
+                                                                            {
+                                                                                "name":  "cur_uuid",
+                                                                                "in":  "path",
+                                                                                "required":  true,
+                                                                                "schema":  {
+                                                                                               "type":  "string",
+                                                                                               "format":  "uuid"
+                                                                                           }
+                                                                            }
+                                                                        ],
+                                                         "requestBody":  {
+                                                                             "$ref":  "#/components/requestBodies/CursoInput"
+                                                                         },
+                                                         "responses":  {
+                                                                           "200":  {
+                                                                                       "description":  "Recurso actualizado.",
+                                                                                       "content":  {
+                                                                                                       "application/json":  {
+                                                                                                                                "schema":  {
+                                                                                                                                               "$ref":  "#/components/schemas/MessageResponse"
+                                                                                                                                           }
+                                                                                                                            }
+                                                                                                   }
+                                                                                   },
+                                                                           "400":  {
+                                                                                       "$ref":  "#/components/responses/BadRequest"
+                                                                                   },
+                                                                           "404":  {
+                                                                                       "$ref":  "#/components/responses/NotFound"
+                                                                                   },
+                                                                           "default":  {
+                                                                                           "$ref":  "#/components/responses/ServerError"
+                                                                                       }
+                                                                       }
+                                                     },
+                                             "delete":  {
+                                                            "tags":  [
+                                                                         "Cursos"
+                                                                     ],
+                                                            "summary":  "Eliminar curso",
+                                                            "parameters":  [
+                                                                               {
+                                                                                   "name":  "cur_uuid",
+                                                                                   "in":  "path",
+                                                                                   "required":  true,
+                                                                                   "schema":  {
+                                                                                                  "type":  "string",
+                                                                                                  "format":  "uuid"
+                                                                                              }
+                                                                               }
+                                                                           ],
+                                                            "responses":  {
+                                                                              "200":  {
+                                                                                          "description":  "Recurso eliminado.",
+                                                                                          "content":  {
+                                                                                                          "application/json":  {
+                                                                                                                                   "schema":  {
+                                                                                                                                                  "$ref":  "#/components/schemas/MessageResponse"
+                                                                                                                                              }
+                                                                                                                               }
+                                                                                                      }
+                                                                                      },
+                                                                              "404":  {
+                                                                                          "$ref":  "#/components/responses/NotFound"
+                                                                                      },
+                                                                              "default":  {
+                                                                                              "$ref":  "#/components/responses/ServerError"
+                                                                                          }
+                                                                          }
+                                                        }
+                                         },
+                  "/instructores/":  {
+                                         "get":  {
+                                                     "tags":  [
+                                                                  "Instructores"
+                                                              ],
+                                                     "summary":  "Listar instructores",
+                                                     "responses":  {
+                                                                       "200":  {
+                                                                                   "description":  "Lista de instructores.",
+                                                                                   "content":  {
+                                                                                                   "application/json":  {
+                                                                                                                            "schema":  {
+                                                                                                                                           "type":  "array",
+                                                                                                                                           "items":  {
+                                                                                                                                                         "$ref":  "#/components/schemas/InstructorResponse"
+                                                                                                                                                     }
+                                                                                                                                       }
+                                                                                                                        }
+                                                                                               }
+                                                                               },
+                                                                       "default":  {
+                                                                                       "$ref":  "#/components/responses/ServerError"
+                                                                                   }
+                                                                   }
+                                                 },
+                                         "post":  {
+                                                      "tags":  [
+                                                                   "Instructores"
+                                                               ],
+                                                      "summary":  "Crear instructor",
+                                                      "requestBody":  {
+                                                                          "$ref":  "#/components/requestBodies/InstructorInput"
+                                                                      },
+                                                      "responses":  {
+                                                                        "201":  {
+                                                                                    "description":  "Recurso creado.",
+                                                                                    "content":  {
+                                                                                                    "application/json":  {
+                                                                                                                             "schema":  {
+                                                                                                                                            "$ref":  "#/components/schemas/InstructorResponse"
+                                                                                                                                        }
+                                                                                                                         }
+                                                                                                }
+                                                                                },
+                                                                        "400":  {
+                                                                                    "$ref":  "#/components/responses/BadRequest"
+                                                                                },
+                                                                        "default":  {
+                                                                                        "$ref":  "#/components/responses/ServerError"
+                                                                                    }
+                                                                    }
+                                                  }
+                                     },
+                  "/instructores/{ins_uuid}":  {
+                                                   "put":  {
+                                                               "tags":  [
+                                                                            "Instructores"
+                                                                        ],
+                                                               "summary":  "Actualizar instructor",
+                                                               "parameters":  [
+                                                                                  {
+                                                                                      "name":  "ins_uuid",
+                                                                                      "in":  "path",
+                                                                                      "required":  true,
+                                                                                      "schema":  {
+                                                                                                     "type":  "string",
+                                                                                                     "format":  "uuid"
+                                                                                                 }
+                                                                                  }
+                                                                              ],
+                                                               "requestBody":  {
+                                                                                   "$ref":  "#/components/requestBodies/InstructorInput"
+                                                                               },
+                                                               "responses":  {
+                                                                                 "200":  {
+                                                                                             "description":  "Recurso actualizado.",
+                                                                                             "content":  {
+                                                                                                             "application/json":  {
+                                                                                                                                      "schema":  {
+                                                                                                                                                     "$ref":  "#/components/schemas/MessageResponse"
+                                                                                                                                                 }
+                                                                                                                                  }
+                                                                                                         }
+                                                                                         },
+                                                                                 "400":  {
+                                                                                             "$ref":  "#/components/responses/BadRequest"
+                                                                                         },
+                                                                                 "404":  {
+                                                                                             "$ref":  "#/components/responses/NotFound"
+                                                                                         },
+                                                                                 "default":  {
+                                                                                                 "$ref":  "#/components/responses/ServerError"
+                                                                                             }
+                                                                             }
+                                                           },
+                                                   "delete":  {
+                                                                  "tags":  [
+                                                                               "Instructores"
+                                                                           ],
+                                                                  "summary":  "Eliminar instructor",
+                                                                  "parameters":  [
+                                                                                     {
+                                                                                         "name":  "ins_uuid",
+                                                                                         "in":  "path",
+                                                                                         "required":  true,
+                                                                                         "schema":  {
+                                                                                                        "type":  "string",
+                                                                                                        "format":  "uuid"
+                                                                                                    }
+                                                                                     }
+                                                                                 ],
+                                                                  "responses":  {
+                                                                                    "200":  {
+                                                                                                "description":  "Recurso eliminado.",
+                                                                                                "content":  {
+                                                                                                                "application/json":  {
+                                                                                                                                         "schema":  {
+                                                                                                                                                        "$ref":  "#/components/schemas/MessageResponse"
+                                                                                                                                                    }
+                                                                                                                                     }
+                                                                                                            }
+                                                                                            },
+                                                                                    "404":  {
+                                                                                                "$ref":  "#/components/responses/NotFound"
+                                                                                            },
+                                                                                    "default":  {
+                                                                                                    "$ref":  "#/components/responses/ServerError"
+                                                                                                }
+                                                                                }
+                                                              }
+                                               },
+                  "/imparte/":  {
+                                    "get":  {
+                                                "tags":  [
+                                                             "Asignaciones de instructores"
+                                                         ],
+                                                "summary":  "Listar imparte",
+                                                "responses":  {
+                                                                  "200":  {
+                                                                              "description":  "Lista de imparte.",
+                                                                              "content":  {
+                                                                                              "application/json":  {
+                                                                                                                       "schema":  {
+                                                                                                                                      "type":  "array",
+                                                                                                                                      "items":  {
+                                                                                                                                                    "$ref":  "#/components/schemas/ImparteResponse"
+                                                                                                                                                }
+                                                                                                                                  }
+                                                                                                                   }
+                                                                                          }
+                                                                          },
+                                                                  "default":  {
+                                                                                  "$ref":  "#/components/responses/ServerError"
+                                                                              }
+                                                              }
+                                            },
+                                    "post":  {
+                                                 "tags":  [
+                                                              "Asignaciones de instructores"
+                                                          ],
+                                                 "summary":  "Crear asignación",
+                                                 "requestBody":  {
+                                                                     "$ref":  "#/components/requestBodies/ImparteInput"
+                                                                 },
+                                                 "responses":  {
+                                                                   "201":  {
+                                                                               "description":  "Recurso creado.",
+                                                                               "content":  {
+                                                                                               "application/json":  {
+                                                                                                                        "schema":  {
+                                                                                                                                       "$ref":  "#/components/schemas/ImparteResponse"
+                                                                                                                                   }
+                                                                                                                    }
+                                                                                           }
+                                                                           },
+                                                                   "400":  {
+                                                                               "$ref":  "#/components/responses/BadRequest"
+                                                                           },
+                                                                   "default":  {
+                                                                                   "$ref":  "#/components/responses/ServerError"
+                                                                               }
+                                                               }
+                                             }
+                                },
+                  "/imparte/{imp_uuid}":  {
+                                              "put":  {
+                                                          "tags":  [
+                                                                       "Asignaciones de instructores"
+                                                                   ],
+                                                          "summary":  "Actualizar asignación",
+                                                          "parameters":  [
+                                                                             {
+                                                                                 "name":  "imp_uuid",
+                                                                                 "in":  "path",
+                                                                                 "required":  true,
+                                                                                 "schema":  {
+                                                                                                "type":  "string",
+                                                                                                "format":  "uuid"
+                                                                                            }
+                                                                             }
+                                                                         ],
+                                                          "requestBody":  {
+                                                                              "$ref":  "#/components/requestBodies/ImparteInput"
+                                                                          },
+                                                          "responses":  {
+                                                                            "200":  {
+                                                                                        "description":  "Recurso actualizado.",
+                                                                                        "content":  {
+                                                                                                        "application/json":  {
+                                                                                                                                 "schema":  {
+                                                                                                                                                "$ref":  "#/components/schemas/MessageResponse"
+                                                                                                                                            }
+                                                                                                                             }
+                                                                                                    }
+                                                                                    },
+                                                                            "400":  {
+                                                                                        "$ref":  "#/components/responses/BadRequest"
+                                                                                    },
+                                                                            "404":  {
+                                                                                        "$ref":  "#/components/responses/NotFound"
+                                                                                    },
+                                                                            "default":  {
+                                                                                            "$ref":  "#/components/responses/ServerError"
+                                                                                        }
+                                                                        }
+                                                      },
+                                              "delete":  {
+                                                             "tags":  [
+                                                                          "Asignaciones de instructores"
+                                                                      ],
+                                                             "summary":  "Eliminar asignación",
+                                                             "parameters":  [
+                                                                                {
+                                                                                    "name":  "imp_uuid",
+                                                                                    "in":  "path",
+                                                                                    "required":  true,
+                                                                                    "schema":  {
+                                                                                                   "type":  "string",
+                                                                                                   "format":  "uuid"
+                                                                                               }
+                                                                                }
+                                                                            ],
+                                                             "responses":  {
+                                                                               "200":  {
+                                                                                           "description":  "Recurso eliminado.",
+                                                                                           "content":  {
+                                                                                                           "application/json":  {
+                                                                                                                                    "schema":  {
+                                                                                                                                                   "$ref":  "#/components/schemas/MessageResponse"
+                                                                                                                                               }
+                                                                                                                                }
+                                                                                                       }
+                                                                                       },
+                                                                               "404":  {
+                                                                                           "$ref":  "#/components/responses/NotFound"
+                                                                                       },
+                                                                               "default":  {
+                                                                                               "$ref":  "#/components/responses/ServerError"
+                                                                                           }
+                                                                           }
+                                                         }
+                                          },
+                  "/matriculas/":  {
+                                       "get":  {
+                                                   "tags":  [
+                                                                "Matrículas"
+                                                            ],
+                                                   "summary":  "Listar matriculas",
+                                                   "responses":  {
+                                                                     "200":  {
+                                                                                 "description":  "Lista de matriculas.",
+                                                                                 "content":  {
+                                                                                                 "application/json":  {
+                                                                                                                          "schema":  {
+                                                                                                                                         "type":  "array",
+                                                                                                                                         "items":  {
+                                                                                                                                                       "$ref":  "#/components/schemas/MatriculaResponse"
+                                                                                                                                                   }
+                                                                                                                                     }
+                                                                                                                      }
+                                                                                             }
+                                                                             },
+                                                                     "default":  {
+                                                                                     "$ref":  "#/components/responses/ServerError"
+                                                                                 }
+                                                                 }
+                                               },
+                                       "post":  {
+                                                    "tags":  [
+                                                                 "Matrículas"
+                                                             ],
+                                                    "summary":  "Crear matrícula",
+                                                    "requestBody":  {
+                                                                        "$ref":  "#/components/requestBodies/MatriculaInput"
+                                                                    },
+                                                    "responses":  {
+                                                                      "201":  {
+                                                                                  "description":  "Recurso creado.",
+                                                                                  "content":  {
+                                                                                                  "application/json":  {
+                                                                                                                           "schema":  {
+                                                                                                                                          "$ref":  "#/components/schemas/MatriculaResponse"
+                                                                                                                                      }
+                                                                                                                       }
+                                                                                              }
+                                                                              },
+                                                                      "400":  {
+                                                                                  "$ref":  "#/components/responses/BadRequest"
+                                                                              },
+                                                                      "default":  {
+                                                                                      "$ref":  "#/components/responses/ServerError"
+                                                                                  }
+                                                                  }
+                                                }
+                                   },
+                  "/matriculas/{mat_uuid}":  {
+                                                 "put":  {
+                                                             "tags":  [
+                                                                          "Matrículas"
+                                                                      ],
+                                                             "summary":  "Actualizar matrícula",
+                                                             "parameters":  [
+                                                                                {
+                                                                                    "name":  "mat_uuid",
+                                                                                    "in":  "path",
+                                                                                    "required":  true,
+                                                                                    "schema":  {
+                                                                                                   "type":  "string",
+                                                                                                   "format":  "uuid"
+                                                                                               }
+                                                                                }
+                                                                            ],
+                                                             "requestBody":  {
+                                                                                 "$ref":  "#/components/requestBodies/MatriculaInput"
+                                                                             },
+                                                             "responses":  {
+                                                                               "200":  {
+                                                                                           "description":  "Recurso actualizado.",
+                                                                                           "content":  {
+                                                                                                           "application/json":  {
+                                                                                                                                    "schema":  {
+                                                                                                                                                   "$ref":  "#/components/schemas/MessageResponse"
+                                                                                                                                               }
+                                                                                                                                }
+                                                                                                       }
+                                                                                       },
+                                                                               "400":  {
+                                                                                           "$ref":  "#/components/responses/BadRequest"
+                                                                                       },
+                                                                               "404":  {
+                                                                                           "$ref":  "#/components/responses/NotFound"
+                                                                                       },
+                                                                               "default":  {
+                                                                                               "$ref":  "#/components/responses/ServerError"
+                                                                                           }
+                                                                           }
+                                                         },
+                                                 "delete":  {
+                                                                "tags":  [
+                                                                             "Matrículas"
+                                                                         ],
+                                                                "summary":  "Eliminar matrícula",
+                                                                "parameters":  [
+                                                                                   {
+                                                                                       "name":  "mat_uuid",
+                                                                                       "in":  "path",
+                                                                                       "required":  true,
+                                                                                       "schema":  {
+                                                                                                      "type":  "string",
+                                                                                                      "format":  "uuid"
+                                                                                                  }
+                                                                                   }
+                                                                               ],
+                                                                "responses":  {
+                                                                                  "200":  {
+                                                                                              "description":  "Recurso eliminado.",
+                                                                                              "content":  {
+                                                                                                              "application/json":  {
+                                                                                                                                       "schema":  {
+                                                                                                                                                      "$ref":  "#/components/schemas/MessageResponse"
+                                                                                                                                                  }
+                                                                                                                                   }
+                                                                                                          }
+                                                                                          },
+                                                                                  "404":  {
+                                                                                              "$ref":  "#/components/responses/NotFound"
+                                                                                          },
+                                                                                  "default":  {
+                                                                                                  "$ref":  "#/components/responses/ServerError"
+                                                                                              }
+                                                                              }
+                                                            }
+                                             },
+                  "/evaluaciones/":  {
+                                         "get":  {
+                                                     "tags":  [
+                                                                  "Evaluaciones"
+                                                              ],
+                                                     "summary":  "Listar evaluaciones",
+                                                     "responses":  {
+                                                                       "200":  {
+                                                                                   "description":  "Lista de evaluaciones.",
+                                                                                   "content":  {
+                                                                                                   "application/json":  {
+                                                                                                                            "schema":  {
+                                                                                                                                           "type":  "array",
+                                                                                                                                           "items":  {
+                                                                                                                                                         "$ref":  "#/components/schemas/EvaluacionResponse"
+                                                                                                                                                     }
+                                                                                                                                       }
+                                                                                                                        }
+                                                                                               }
+                                                                               },
+                                                                       "default":  {
+                                                                                       "$ref":  "#/components/responses/ServerError"
+                                                                                   }
+                                                                   }
+                                                 },
+                                         "post":  {
+                                                      "tags":  [
+                                                                   "Evaluaciones"
+                                                               ],
+                                                      "summary":  "Crear evaluación",
+                                                      "requestBody":  {
+                                                                          "$ref":  "#/components/requestBodies/EvaluacionInput"
+                                                                      },
+                                                      "responses":  {
+                                                                        "201":  {
+                                                                                    "description":  "Recurso creado.",
+                                                                                    "content":  {
+                                                                                                    "application/json":  {
+                                                                                                                             "schema":  {
+                                                                                                                                            "$ref":  "#/components/schemas/EvaluacionResponse"
+                                                                                                                                        }
+                                                                                                                         }
+                                                                                                }
+                                                                                },
+                                                                        "400":  {
+                                                                                    "$ref":  "#/components/responses/BadRequest"
+                                                                                },
+                                                                        "default":  {
+                                                                                        "$ref":  "#/components/responses/ServerError"
+                                                                                    }
+                                                                    }
+                                                  }
+                                     },
+                  "/evaluaciones/{eva_uuid}":  {
+                                                   "put":  {
+                                                               "tags":  [
+                                                                            "Evaluaciones"
+                                                                        ],
+                                                               "summary":  "Actualizar evaluación",
+                                                               "parameters":  [
+                                                                                  {
+                                                                                      "name":  "eva_uuid",
+                                                                                      "in":  "path",
+                                                                                      "required":  true,
+                                                                                      "schema":  {
+                                                                                                     "type":  "string",
+                                                                                                     "format":  "uuid"
+                                                                                                 }
+                                                                                  }
+                                                                              ],
+                                                               "requestBody":  {
+                                                                                   "$ref":  "#/components/requestBodies/EvaluacionInput"
+                                                                               },
+                                                               "responses":  {
+                                                                                 "200":  {
+                                                                                             "description":  "Recurso actualizado.",
+                                                                                             "content":  {
+                                                                                                             "application/json":  {
+                                                                                                                                      "schema":  {
+                                                                                                                                                     "$ref":  "#/components/schemas/MessageResponse"
+                                                                                                                                                 }
+                                                                                                                                  }
+                                                                                                         }
+                                                                                         },
+                                                                                 "400":  {
+                                                                                             "$ref":  "#/components/responses/BadRequest"
+                                                                                         },
+                                                                                 "404":  {
+                                                                                             "$ref":  "#/components/responses/NotFound"
+                                                                                         },
+                                                                                 "default":  {
+                                                                                                 "$ref":  "#/components/responses/ServerError"
+                                                                                             }
+                                                                             }
+                                                           },
+                                                   "delete":  {
+                                                                  "tags":  [
+                                                                               "Evaluaciones"
+                                                                           ],
+                                                                  "summary":  "Eliminar evaluación",
+                                                                  "parameters":  [
+                                                                                     {
+                                                                                         "name":  "eva_uuid",
+                                                                                         "in":  "path",
+                                                                                         "required":  true,
+                                                                                         "schema":  {
+                                                                                                        "type":  "string",
+                                                                                                        "format":  "uuid"
+                                                                                                    }
+                                                                                     }
+                                                                                 ],
+                                                                  "responses":  {
+                                                                                    "200":  {
+                                                                                                "description":  "Recurso eliminado.",
+                                                                                                "content":  {
+                                                                                                                "application/json":  {
+                                                                                                                                         "schema":  {
+                                                                                                                                                        "$ref":  "#/components/schemas/MessageResponse"
+                                                                                                                                                    }
+                                                                                                                                     }
+                                                                                                            }
+                                                                                            },
+                                                                                    "404":  {
+                                                                                                "$ref":  "#/components/responses/NotFound"
+                                                                                            },
+                                                                                    "default":  {
+                                                                                                    "$ref":  "#/components/responses/ServerError"
+                                                                                                }
+                                                                                }
+                                                              }
+                                               },
+                  "/materia-evalua/":  {
+                                           "get":  {
+                                                       "tags":  [
+                                                                    "Notas de materias"
+                                                                ],
+                                                       "summary":  "Listar materia-evalua",
+                                                       "responses":  {
+                                                                         "200":  {
+                                                                                     "description":  "Lista de materia-evalua.",
+                                                                                     "content":  {
+                                                                                                     "application/json":  {
+                                                                                                                              "schema":  {
+                                                                                                                                             "type":  "array",
+                                                                                                                                             "items":  {
+                                                                                                                                                           "$ref":  "#/components/schemas/MateriaEvaluaResponse"
+                                                                                                                                                       }
+                                                                                                                                         }
+                                                                                                                          }
+                                                                                                 }
+                                                                                 },
+                                                                         "default":  {
+                                                                                         "$ref":  "#/components/responses/ServerError"
+                                                                                     }
+                                                                     }
+                                                   },
+                                           "post":  {
+                                                        "tags":  [
+                                                                     "Notas de materias"
+                                                                 ],
+                                                        "summary":  "Crear nota",
+                                                        "requestBody":  {
+                                                                            "$ref":  "#/components/requestBodies/MateriaEvaluaInput"
+                                                                        },
+                                                        "responses":  {
+                                                                          "201":  {
+                                                                                      "description":  "Recurso creado.",
+                                                                                      "content":  {
+                                                                                                      "application/json":  {
+                                                                                                                               "schema":  {
+                                                                                                                                              "$ref":  "#/components/schemas/MateriaEvaluaResponse"
+                                                                                                                                          }
+                                                                                                                           }
+                                                                                                  }
+                                                                                  },
+                                                                          "400":  {
+                                                                                      "$ref":  "#/components/responses/BadRequest"
+                                                                                  },
+                                                                          "default":  {
+                                                                                          "$ref":  "#/components/responses/ServerError"
+                                                                                      }
+                                                                      }
+                                                    }
+                                       },
+                  "/materia-evalua/{mate_uuid}":  {
+                                                      "put":  {
+                                                                  "tags":  [
+                                                                               "Notas de materias"
+                                                                           ],
+                                                                  "summary":  "Actualizar nota",
+                                                                  "parameters":  [
+                                                                                     {
+                                                                                         "name":  "mate_uuid",
+                                                                                         "in":  "path",
+                                                                                         "required":  true,
+                                                                                         "schema":  {
+                                                                                                        "type":  "string",
+                                                                                                        "format":  "uuid"
+                                                                                                    }
+                                                                                     }
+                                                                                 ],
+                                                                  "requestBody":  {
+                                                                                      "$ref":  "#/components/requestBodies/MateriaEvaluaInput"
+                                                                                  },
+                                                                  "responses":  {
+                                                                                    "200":  {
+                                                                                                "description":  "Recurso actualizado.",
+                                                                                                "content":  {
+                                                                                                                "application/json":  {
+                                                                                                                                         "schema":  {
+                                                                                                                                                        "$ref":  "#/components/schemas/MessageResponse"
+                                                                                                                                                    }
+                                                                                                                                     }
+                                                                                                            }
+                                                                                            },
+                                                                                    "400":  {
+                                                                                                "$ref":  "#/components/responses/BadRequest"
+                                                                                            },
+                                                                                    "404":  {
+                                                                                                "$ref":  "#/components/responses/NotFound"
+                                                                                            },
+                                                                                    "default":  {
+                                                                                                    "$ref":  "#/components/responses/ServerError"
+                                                                                                }
+                                                                                }
+                                                              },
+                                                      "delete":  {
+                                                                     "tags":  [
+                                                                                  "Notas de materias"
+                                                                              ],
+                                                                     "summary":  "Eliminar nota",
+                                                                     "parameters":  [
+                                                                                        {
+                                                                                            "name":  "mate_uuid",
+                                                                                            "in":  "path",
+                                                                                            "required":  true,
+                                                                                            "schema":  {
+                                                                                                           "type":  "string",
+                                                                                                           "format":  "uuid"
+                                                                                                       }
+                                                                                        }
+                                                                                    ],
+                                                                     "responses":  {
+                                                                                       "200":  {
+                                                                                                   "description":  "Recurso eliminado.",
+                                                                                                   "content":  {
+                                                                                                                   "application/json":  {
+                                                                                                                                            "schema":  {
+                                                                                                                                                           "$ref":  "#/components/schemas/MessageResponse"
+                                                                                                                                                       }
+                                                                                                                                        }
+                                                                                                               }
+                                                                                               },
+                                                                                       "404":  {
+                                                                                                   "$ref":  "#/components/responses/NotFound"
+                                                                                               },
+                                                                                       "default":  {
+                                                                                                       "$ref":  "#/components/responses/ServerError"
+                                                                                                   }
+                                                                                   }
+                                                                 }
+                                                  }
+              },
+    "components":  {
+                       "schemas":  {
+                                       "ErrorResponse":  {
+                                                             "type":  "object",
+                                                             "properties":  {
+                                                                                "error":  {
+                                                                                              "type":  "string"
+                                                                                          }
+                                                                            }
+                                                         },
+                                       "MessageResponse":  {
+                                                               "type":  "object",
+                                                               "properties":  {
+                                                                                  "mensaje":  {
+                                                                                                  "type":  "string"
+                                                                                              }
+                                                                              }
+                                                           },
+                                       "ApiStatusResponse":  {
+                                                                 "type":  "object",
+                                                                 "properties":  {
+                                                                                    "mensaje":  {
+                                                                                                    "type":  "string"
+                                                                                                },
+                                                                                    "rutas":  {
+                                                                                                  "type":  "object"
+                                                                                              }
+                                                                                }
+                                                             },
+                                       "AprendizInput":  {
+                                                             "type":  "object",
+                                                             "properties":  {
+                                                                                "fecha_nac":  {
+                                                                                                  "type":  "string",
+                                                                                                  "format":  "date"
+                                                                                              },
+                                                                                "per_id":  {
+                                                                                               "type":  "integer",
+                                                                                               "minimum":  1
+                                                                                           }
+                                                                            },
+                                                             "required":  [
+                                                                              "fecha_nac",
+                                                                              "per_id"
+                                                                          ]
+                                                         },
+                                       "AprendizResponse":  {
+                                                                "type":  "object",
+                                                                "properties":  {
+                                                                                   "APR_ID":  {
+                                                                                                  "type":  "integer"
+                                                                                              },
+                                                                                   "APR_UUID":  {
+                                                                                                    "type":  "string",
+                                                                                                    "format":  "uuid"
+                                                                                                },
+                                                                                   "APR_FECHA_NAC":  {
+                                                                                                         "type":  "string",
+                                                                                                         "format":  "date"
+                                                                                                     },
+                                                                                   "APR_PER_ID":  {
+                                                                                                      "type":  "integer"
+                                                                                                  }
+                                                                               }
+                                                            },
+                                       "PersonaInput":  {
+                                                            "type":  "object",
+                                                            "properties":  {
+                                                                               "pri_nombre":  {
+                                                                                                  "type":  "string"
+                                                                                              },
+                                                                               "seg_nombre":  {
+                                                                                                  "type":  "string",
+                                                                                                  "nullable":  true
+                                                                                              },
+                                                                               "pri_apellido":  {
+                                                                                                    "type":  "string"
+                                                                                                },
+                                                                               "seg_apellido":  {
+                                                                                                    "type":  "string",
+                                                                                                    "nullable":  true
+                                                                                                },
+                                                                               "documento":  {
+                                                                                                 "type":  "string"
+                                                                                             }
+                                                                           },
+                                                            "required":  [
+                                                                             "pri_nombre",
+                                                                             "pri_apellido",
+                                                                             "documento"
+                                                                         ]
+                                                        },
+                                       "PersonaResponse":  {
+                                                               "type":  "object",
+                                                               "properties":  {
+                                                                                  "PER_ID":  {
+                                                                                                 "type":  "integer"
+                                                                                             },
+                                                                                  "PER_UUID":  {
+                                                                                                   "type":  "string",
+                                                                                                   "format":  "uuid"
+                                                                                               },
+                                                                                  "PER_PRI_NOMBRE":  {
+                                                                                                         "type":  "string"
+                                                                                                     },
+                                                                                  "PER_SEG_NOMBRE":  {
+                                                                                                         "type":  "string",
+                                                                                                         "nullable":  true
+                                                                                                     },
+                                                                                  "PER_PRI_APELLIDO":  {
+                                                                                                           "type":  "string"
+                                                                                                       },
+                                                                                  "PER_SEG_APELLIDO":  {
+                                                                                                           "type":  "string",
+                                                                                                           "nullable":  true
+                                                                                                       },
+                                                                                  "PER_DOCUMENTO":  {
+                                                                                                        "type":  "string"
+                                                                                                    }
+                                                                              }
+                                                           },
+                                       "CursoInput":  {
+                                                          "type":  "object",
+                                                          "properties":  {
+                                                                             "nombre":  {
+                                                                                            "type":  "string"
+                                                                                        },
+                                                                             "codigo":  {
+                                                                                            "type":  "string"
+                                                                                        },
+                                                                             "duracion":  {
+                                                                                              "type":  "integer",
+                                                                                              "minimum":  1
+                                                                                          },
+                                                                             "costo":  {
+                                                                                           "type":  "number",
+                                                                                           "minimum":  0
+                                                                                       },
+                                                                             "descripcion":  {
+                                                                                                 "type":  "string",
+                                                                                                 "nullable":  true
+                                                                                             }
+                                                                         },
+                                                          "required":  [
+                                                                           "nombre",
+                                                                           "codigo",
+                                                                           "duracion",
+                                                                           "costo"
+                                                                       ]
+                                                      },
+                                       "CursoResponse":  {
+                                                             "type":  "object",
+                                                             "properties":  {
+                                                                                "CUR_ID":  {
+                                                                                               "type":  "integer"
+                                                                                           },
+                                                                                "CUR_UUID":  {
+                                                                                                 "type":  "string",
+                                                                                                 "format":  "uuid"
+                                                                                             },
+                                                                                "CUR_NOMBRE":  {
+                                                                                                   "type":  "string"
+                                                                                               },
+                                                                                "CUR_CODIGO":  {
+                                                                                                   "type":  "string"
+                                                                                               },
+                                                                                "CUR_DURACION":  {
+                                                                                                     "type":  "integer"
+                                                                                                 },
+                                                                                "CUR_COSTO":  {
+                                                                                                  "type":  "number"
+                                                                                              },
+                                                                                "CUR_DESCRIPCION":  {
+                                                                                                        "type":  "string",
+                                                                                                        "nullable":  true
+                                                                                                    }
+                                                                            }
+                                                         },
+                                       "InstructorInput":  {
+                                                               "type":  "object",
+                                                               "properties":  {
+                                                                                  "especialidad":  {
+                                                                                                       "type":  "string"
+                                                                                                   },
+                                                                                  "per_id":  {
+                                                                                                 "type":  "integer",
+                                                                                                 "minimum":  1
+                                                                                             }
+                                                                              },
+                                                               "required":  [
+                                                                                "especialidad",
+                                                                                "per_id"
+                                                                            ]
+                                                           },
+                                       "InstructorResponse":  {
+                                                                  "type":  "object",
+                                                                  "properties":  {
+                                                                                     "INS_ID":  {
+                                                                                                    "type":  "integer"
+                                                                                                },
+                                                                                     "INS_UUID":  {
+                                                                                                      "type":  "string",
+                                                                                                      "format":  "uuid"
+                                                                                                  },
+                                                                                     "INS_ESPECIALIDAD":  {
+                                                                                                              "type":  "string"
+                                                                                                          },
+                                                                                     "INS_PER_ID":  {
+                                                                                                        "type":  "integer"
+                                                                                                    }
+                                                                                 }
+                                                              },
+                                       "ImparteInput":  {
+                                                            "type":  "object",
+                                                            "properties":  {
+                                                                               "rol":  {
+                                                                                           "type":  "string"
+                                                                                       },
+                                                                               "fecha":  {
+                                                                                             "type":  "string",
+                                                                                             "format":  "date"
+                                                                                         },
+                                                                               "fecha_asignacion":  {
+                                                                                                        "type":  "string",
+                                                                                                        "format":  "date"
+                                                                                                    },
+                                                                               "cur_id":  {
+                                                                                              "type":  "integer",
+                                                                                              "minimum":  1
+                                                                                          },
+                                                                               "ins_id":  {
+                                                                                              "type":  "integer",
+                                                                                              "minimum":  1
+                                                                                          }
+                                                                           },
+                                                            "required":  [
+                                                                             "rol",
+                                                                             "fecha",
+                                                                             "fecha_asignacion",
+                                                                             "cur_id",
+                                                                             "ins_id"
+                                                                         ]
+                                                        },
+                                       "ImparteResponse":  {
+                                                               "type":  "object",
+                                                               "properties":  {
+                                                                                  "IMP_ID":  {
+                                                                                                 "type":  "integer"
+                                                                                             },
+                                                                                  "IMP_UUID":  {
+                                                                                                   "type":  "string",
+                                                                                                   "format":  "uuid"
+                                                                                               },
+                                                                                  "IMP_ROL":  {
+                                                                                                  "type":  "string"
+                                                                                              },
+                                                                                  "IMP_FECHA":  {
+                                                                                                    "type":  "string",
+                                                                                                    "format":  "date"
+                                                                                                },
+                                                                                  "IMP_FECHA_ASIGNACION":  {
+                                                                                                               "type":  "string",
+                                                                                                               "format":  "date"
+                                                                                                           },
+                                                                                  "IMP_CUR_ID":  {
+                                                                                                     "type":  "integer"
+                                                                                                 },
+                                                                                  "IMP_INS_ID":  {
+                                                                                                     "type":  "integer"
+                                                                                                 }
+                                                                              }
+                                                           },
+                                       "MatriculaInput":  {
+                                                              "type":  "object",
+                                                              "properties":  {
+                                                                                 "fecha":  {
+                                                                                               "type":  "string",
+                                                                                               "format":  "date"
+                                                                                           },
+                                                                                 "estado":  {
+                                                                                                "type":  "string"
+                                                                                            },
+                                                                                 "per_id":  {
+                                                                                                "type":  "integer",
+                                                                                                "minimum":  1
+                                                                                            },
+                                                                                 "cur_id":  {
+                                                                                                "type":  "integer",
+                                                                                                "minimum":  1
+                                                                                            }
+                                                                             },
+                                                              "required":  [
+                                                                               "fecha",
+                                                                               "estado",
+                                                                               "per_id",
+                                                                               "cur_id"
+                                                                           ]
+                                                          },
+                                       "MatriculaResponse":  {
+                                                                 "type":  "object",
+                                                                 "properties":  {
+                                                                                    "MAT_ID":  {
+                                                                                                   "type":  "integer"
+                                                                                               },
+                                                                                    "MAT_UUID":  {
+                                                                                                     "type":  "string",
+                                                                                                     "format":  "uuid"
+                                                                                                 },
+                                                                                    "MAT_FECHA":  {
+                                                                                                      "type":  "string",
+                                                                                                      "format":  "date"
+                                                                                                  },
+                                                                                    "MAT_ESTADO":  {
+                                                                                                       "type":  "string"
+                                                                                                   },
+                                                                                    "MAT_PER_ID":  {
+                                                                                                       "type":  "integer"
+                                                                                                   },
+                                                                                    "MAT_CUR_ID":  {
+                                                                                                       "type":  "integer"
+                                                                                                   }
+                                                                                }
+                                                             },
+                                       "EvaluacionInput":  {
+                                                               "type":  "object",
+                                                               "properties":  {
+                                                                                  "nombre":  {
+                                                                                                 "type":  "string"
+                                                                                             },
+                                                                                  "codigo":  {
+                                                                                                 "type":  "string"
+                                                                                             },
+                                                                                  "porcentaje":  {
+                                                                                                     "type":  "number",
+                                                                                                     "minimum":  0,
+                                                                                                     "maximum":  100
+                                                                                                 },
+                                                                                  "fecha":  {
+                                                                                                "type":  "string",
+                                                                                                "format":  "date"
+                                                                                            }
+                                                                              },
+                                                               "required":  [
+                                                                                "nombre",
+                                                                                "codigo",
+                                                                                "porcentaje",
+                                                                                "fecha"
+                                                                            ]
+                                                           },
+                                       "EvaluacionResponse":  {
+                                                                  "type":  "object",
+                                                                  "properties":  {
+                                                                                     "EVA_ID":  {
+                                                                                                    "type":  "integer"
+                                                                                                },
+                                                                                     "EVA_UUID":  {
+                                                                                                      "type":  "string",
+                                                                                                      "format":  "uuid"
+                                                                                                  },
+                                                                                     "EVA_NOMBRE":  {
+                                                                                                        "type":  "string"
+                                                                                                    },
+                                                                                     "EVA_CODIGO":  {
+                                                                                                        "type":  "string"
+                                                                                                    },
+                                                                                     "EVA_PORCENTAJE":  {
+                                                                                                            "type":  "number"
+                                                                                                        },
+                                                                                     "EVA_FECHA":  {
+                                                                                                       "type":  "string",
+                                                                                                       "format":  "date"
+                                                                                                   }
+                                                                                 }
+                                                              },
+                                       "MateriaEvaluaInput":  {
+                                                                  "type":  "object",
+                                                                  "properties":  {
+                                                                                     "nota":  {
+                                                                                                  "type":  "number",
+                                                                                                  "minimum":  0,
+                                                                                                  "maximum":  5
+                                                                                              },
+                                                                                     "eva_id":  {
+                                                                                                    "type":  "integer",
+                                                                                                    "minimum":  1
+                                                                                                },
+                                                                                     "mat_id":  {
+                                                                                                    "type":  "integer",
+                                                                                                    "minimum":  1
+                                                                                                }
+                                                                                 },
+                                                                  "required":  [
+                                                                                   "nota",
+                                                                                   "eva_id",
+                                                                                   "mat_id"
+                                                                               ]
+                                                              },
+                                       "MateriaEvaluaResponse":  {
+                                                                     "type":  "object",
+                                                                     "properties":  {
+                                                                                        "MATE_ID":  {
+                                                                                                        "type":  "integer"
+                                                                                                    },
+                                                                                        "MATE_UUID":  {
+                                                                                                          "type":  "string",
+                                                                                                          "format":  "uuid"
+                                                                                                      },
+                                                                                        "MATE_NOTA":  {
+                                                                                                          "type":  "number"
+                                                                                                      },
+                                                                                        "MATE_EVA_ID":  {
+                                                                                                            "type":  "integer"
+                                                                                                        },
+                                                                                        "MATE_MAT_ID":  {
+                                                                                                            "type":  "integer"
+                                                                                                        }
+                                                                                    }
+                                                                 }
+                                   },
+                       "responses":  {
+                                         "BadRequest":  {
+                                                            "description":  "JSON inválido o datos no válidos.",
+                                                            "content":  {
+                                                                            "application/json":  {
+                                                                                                     "schema":  {
+                                                                                                                    "$ref":  "#/components/schemas/ErrorResponse"
+                                                                                                                }
+                                                                                                 }
+                                                                        }
+                                                        },
+                                         "NotFound":  {
+                                                          "description":  "Recurso no encontrado.",
+                                                          "content":  {
+                                                                          "application/json":  {
+                                                                                                   "schema":  {
+                                                                                                                  "$ref":  "#/components/schemas/ErrorResponse"
+                                                                                                              }
+                                                                                               }
+                                                                      }
+                                                      },
+                                         "ServerError":  {
+                                                             "description":  "Error interno del servidor.",
+                                                             "content":  {
+                                                                             "application/json":  {
+                                                                                                      "schema":  {
+                                                                                                                     "$ref":  "#/components/schemas/ErrorResponse"
+                                                                                                                 }
+                                                                                                  }
+                                                                         }
+                                                         }
+                                     },
+                       "requestBodies":  {
+                                             "AprendizInput":  {
+                                                                   "required":  true,
+                                                                   "content":  {
+                                                                                   "application/json":  {
+                                                                                                            "schema":  {
+                                                                                                                           "$ref":  "#/components/schemas/AprendizInput"
+                                                                                                                       }
+                                                                                                        }
+                                                                               }
+                                                               },
+                                             "PersonaInput":  {
+                                                                  "required":  true,
+                                                                  "content":  {
+                                                                                  "application/json":  {
+                                                                                                           "schema":  {
+                                                                                                                          "$ref":  "#/components/schemas/PersonaInput"
+                                                                                                                      }
+                                                                                                       }
+                                                                              }
+                                                              },
+                                             "CursoInput":  {
+                                                                "required":  true,
+                                                                "content":  {
+                                                                                "application/json":  {
+                                                                                                         "schema":  {
+                                                                                                                        "$ref":  "#/components/schemas/CursoInput"
+                                                                                                                    }
+                                                                                                     }
+                                                                            }
+                                                            },
+                                             "InstructorInput":  {
+                                                                     "required":  true,
+                                                                     "content":  {
+                                                                                     "application/json":  {
+                                                                                                              "schema":  {
+                                                                                                                             "$ref":  "#/components/schemas/InstructorInput"
+                                                                                                                         }
+                                                                                                          }
+                                                                                 }
+                                                                 },
+                                             "ImparteInput":  {
+                                                                  "required":  true,
+                                                                  "content":  {
+                                                                                  "application/json":  {
+                                                                                                           "schema":  {
+                                                                                                                          "$ref":  "#/components/schemas/ImparteInput"
+                                                                                                                      }
+                                                                                                       }
+                                                                              }
+                                                              },
+                                             "MatriculaInput":  {
+                                                                    "required":  true,
+                                                                    "content":  {
+                                                                                    "application/json":  {
+                                                                                                             "schema":  {
+                                                                                                                            "$ref":  "#/components/schemas/MatriculaInput"
+                                                                                                                        }
+                                                                                                         }
+                                                                                }
+                                                                },
+                                             "EvaluacionInput":  {
+                                                                     "required":  true,
+                                                                     "content":  {
+                                                                                     "application/json":  {
+                                                                                                              "schema":  {
+                                                                                                                             "$ref":  "#/components/schemas/EvaluacionInput"
+                                                                                                                         }
+                                                                                                          }
+                                                                                 }
+                                                                 },
+                                             "MateriaEvaluaInput":  {
+                                                                        "required":  true,
+                                                                        "content":  {
+                                                                                        "application/json":  {
+                                                                                                                 "schema":  {
+                                                                                                                                "$ref":  "#/components/schemas/MateriaEvaluaInput"
+                                                                                                                            }
+                                                                                                             }
+                                                                                    }
+                                                                    }
+                                         }
+                   }
 }
