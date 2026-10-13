@@ -6,7 +6,7 @@ from .imparte_bp import imparte_bp
 from .matricula_bp import matricula_bp
 from .evaluacion_bp import evaluacion_bp
 from .materiaEvalua_bp import materia_evalua_bp
-from .documentacion import documentacion
+from .documentacion import documentacion_bp
 
 
 def loadRoutes(app):
