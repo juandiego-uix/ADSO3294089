@@ -19,4 +19,4 @@ def loadRoutes(app):
     app.register_blueprint(matricula_bp, url_prefix='/matriculas')
     app.register_blueprint(evaluacion_bp, url_prefix='/evaluaciones')
     app.register_blueprint(materia_evalua_bp, url_prefix='/materia-evalua')
-    app.register_blueprint(documentacion, url_prefix='/documentacion')
+    app.register_blueprint(documentacion_bp, url_prefix='/documentacion')
