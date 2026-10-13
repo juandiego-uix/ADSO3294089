@@ -5,7 +5,6 @@ from Config import Config
 from Routes import loadRoutes
 
 app = Flask(__name__)
-CORS(app)
 app.config.from_object(Config)
 mysql = MySQL(app)
 
