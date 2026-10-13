@@ -1,5 +1,4 @@
 from flask import Flask, jsonify
-from flask_cors import CORS
 from werkzeug.exceptions import HTTPException
 from flask_mysqldb import MySQL
 from Config import Config
