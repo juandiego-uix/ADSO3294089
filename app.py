@@ -1,12 +1,28 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 from werkzeug.exceptions import HTTPException
 from flask_mysqldb import MySQL
 from Config import Config
 from Routes import loadRoutes
-from flask_cors import cors
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+CORS(
+	app,
+	resources={
+		r"/*": {
+			"origins": [
+				r"^http://localhost(?::\d+)?$",
+				r"^http://127\.0\.0\.1(?::\d+)?$",
+				*app.config["CORS_ORIGINS"],
+			],
+			"methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+			"allow_headers": ["Accept", "Content-Type"],
+		}
+	},
+)
+
 mysql = MySQL(app)
 
 app.mysql = mysql
