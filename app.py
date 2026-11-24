@@ -3,6 +3,7 @@ from werkzeug.exceptions import HTTPException
 from flask_mysqldb import MySQL
 from Config import Config
 from Routes import loadRoutes
+from flask_cors import cors
 
 app = Flask(__name__)
 app.config.from_object(Config)
