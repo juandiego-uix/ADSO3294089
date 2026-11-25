@@ -1,5 +1,5 @@
 from flask import jsonify, request
-from Services.PersonaService import personaService
+from Services.PersonaService import PersonaRelacionadaError, personaService
 from Controllers.validation import validate_payload
 
 
@@ -26,7 +26,11 @@ class personaController:
 
     @staticmethod
     def delete(per_uuid):
-        if not personaService.delete(per_uuid):
+        try:
+            deleted = personaService.delete(per_uuid)
+        except PersonaRelacionadaError as error:
+            return jsonify({"error": str(error)}), 409
+        if not deleted:
             return jsonify({"error": "Persona no encontrada"}), 404
         return jsonify({"mensaje": "Persona eliminada"}), 200
 

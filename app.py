@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, jsonify
 from flask_cors import CORS
 from werkzeug.exceptions import HTTPException
@@ -57,4 +59,8 @@ def handle_unexpected_error(error):
 	return jsonify({"error": "Error interno del servidor"}), 500
 
 if __name__ == "__main__":
-	app.run(debug=True, port=5000, host="0.0.0.0")
+	app.run(
+		debug=os.getenv("FLASK_DEBUG", "false").lower() == "true",
+		port=int(os.getenv("PORT", "5000")),
+		host="0.0.0.0",
+	)

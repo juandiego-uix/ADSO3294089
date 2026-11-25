@@ -3,6 +3,10 @@ from Models.Persona import Persona
 import uuid
 
 
+class PersonaRelacionadaError(Exception):
+    pass
+
+
 class personaService:
     @staticmethod
     def add(data):
@@ -52,8 +56,48 @@ class personaService:
     def delete(per_uuid):
         c = current_app.mysql.connection.cursor()
         try:
+            c.execute(
+                """SELECT
+                       (SELECT COUNT(*) FROM T_APRENDIZ
+                        WHERE APR_PER_ID = persona.PER_ID),
+                       (SELECT COUNT(*) FROM T_INSTRUCTOR
+                        WHERE INS_PER_ID = persona.PER_ID),
+                       (SELECT COUNT(*) FROM T_MATRICULA
+                        WHERE MAT_PER_ID = persona.PER_ID)
+                   FROM T_PERSONA AS persona
+                   WHERE persona.PER_UUID = %s""",
+                (per_uuid,)
+            )
+            dependencies = c.fetchone()
+            if dependencies is None:
+                return False
+
+            labels = ("aprendices", "instructores", "matrículas")
+            related = [
+                f"{count} {label}"
+                for count, label in zip(dependencies, labels)
+                if count
+            ]
+            if related:
+                raise PersonaRelacionadaError(
+                    "No se puede eliminar la persona porque tiene registros "
+                    f"relacionados: {', '.join(related)}."
+                )
+
             c.execute("DELETE FROM T_PERSONA WHERE PER_UUID = %s", (per_uuid,))
             c.connection.commit()
             return c.rowcount > 0
+        except PersonaRelacionadaError:
+            c.connection.rollback()
+            raise
+        except Exception as error:
+            c.connection.rollback()
+            error_code = error.args[0] if error.args else None
+            if error_code == 1451:
+                raise PersonaRelacionadaError(
+                    "No se puede eliminar la persona porque tiene otros "
+                    "registros relacionados."
+                ) from error
+            raise
         finally:
             c.close()

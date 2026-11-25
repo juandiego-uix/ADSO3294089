@@ -8,9 +8,12 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class Config:
     CORS_ORIGINS = [
-        origin.strip()
-        for origin in os.getenv('CORS_ORIGINS', '').split(',')
-        if origin.strip()
+        'https://adso4089-mobile-web-juangamers.onrender.com',
+        *[
+            origin.strip().rstrip('/')
+            for origin in os.getenv('CORS_ORIGINS', '').split(',')
+            if origin.strip().rstrip('/')
+        ],
     ]
 
     MYSQL_HOST = os.getenv('MYSQL_HOST')
