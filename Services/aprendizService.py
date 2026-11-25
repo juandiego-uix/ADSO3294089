@@ -38,10 +38,17 @@ class aprendizService:
 
     @staticmethod
     def show():
-        sql = """SELECT * 
-                 FROM T_APRENDIZ
-                 INNER JOIN T_PERSONA 
-                 ON PER_ID = APR_PER_ID"""
+        sql = """SELECT aprendiz.APR_ID,
+                        aprendiz.APR_UUID,
+                        aprendiz.APR_FECHA_NAC,
+                        persona.PER_PRI_NOMBRE,
+                        persona.PER_SEG_NOMBRE,
+                        persona.PER_PRI_APELLIDO,
+                        persona.PER_SEG_APELLIDO,
+                        persona.PER_DOCUMENTO
+                 FROM T_APRENDIZ AS aprendiz
+                 INNER JOIN T_PERSONA AS persona
+                 ON persona.PER_ID = aprendiz.APR_PER_ID"""
 
         c = current_app.mysql.connection.cursor()
 
@@ -55,9 +62,17 @@ class aprendizService:
                     x[1],
                     x[2],
                     {
-                        "nombres": x[6] + " " + x[7],
-                        "apellidos": x[8] + " " + x[9],
-                        "cedula": x[10]
+                        "nombres": " ".join(
+                            str(value).strip()
+                            for value in (x[3], x[4])
+                            if value is not None and str(value).strip()
+                        ),
+                        "apellidos": " ".join(
+                            str(value).strip()
+                            for value in (x[5], x[6])
+                            if value is not None and str(value).strip()
+                        ),
+                        "cedula": x[7]
                     }
                 ).to_dict()
                 for x in data
